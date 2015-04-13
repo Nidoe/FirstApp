@@ -11,6 +11,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -121,7 +123,16 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 //textView.setText(res);
                 MyAdapter adapter = new MyAdapter(DisplayMessageActivity.this,list);
                 listView.setAdapter(adapter);
-
+                AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView parent, View v, int position, long id) {
+                        Stream clicked = (Stream)parent.getItemAtPosition(position);
+                        Intent click = new Intent(getApplicationContext(),StreamInfo.class);
+                        String name = clicked.getDisplayName();
+                        click.putExtra("Display Name",name);
+                        startActivity(click);
+                    }
+                };
+                listView.setOnItemClickListener(mMessageClickedHandler);
                 // textView.setText(jsonObj.toString(1));
             } catch (Exception e) {
                 e.printStackTrace();
