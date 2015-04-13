@@ -8,6 +8,7 @@ import org.json.JSONObject;
 public class Stream {
 
     private int icon;
+    private String test;
     private String displayName;
     private String followers;
     private String gameName;
