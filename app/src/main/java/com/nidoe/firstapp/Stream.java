@@ -12,7 +12,10 @@ public class Stream {
     private String displayName;
     private String followers;
     private String gameName;
-    public static String names;
+    private String name;
+
+
+    public static String names = new String();
 
     public String getUrl() {
         return url;
@@ -25,6 +28,7 @@ public class Stream {
             this.followers = object.getString("followers");
             this.gameName = object.getString("game");
             this.url = object.getString("url");
+            this.name = object.getString("name");
             names+= object.getString("name") + ",";
 
         }
@@ -41,6 +45,9 @@ public class Stream {
         this.followers = followers;
     }
 
+    public String getName() {
+        return name;
+    }
 
     public String getDisplayName() {
         return displayName;

@@ -41,6 +41,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
     String origUrl;
     JSONArray follows;
     ArrayList<Stream> list;
+    JSONArray streams;
+    ArrayList<Stream> online;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,23 @@ public class DisplayMessageActivity extends ActionBarActivity {
                         follows.put(follow.get(j));
                     }
                 }
+                list = new ArrayList<Stream>(follows.length());
+                for(int i=0;i < follows.length();i++) {
+                    JSONObject channel = follows.getJSONObject(i).getJSONObject("channel");
+                    Stream chan = new Stream(channel);
+                    list.add(chan);
+                }
+                String res = downloadUrl("https://api.twitch.tv/kraken/streams?limit=100&channel=" + Stream.names);
+                JSONObject resObj = new JSONObject(res);
+                streams = resObj.getJSONArray("streams");
+
+                online = new ArrayList<Stream>(streams.length());
+                for(int i=0;i < streams.length();i++) {
+                    JSONObject channel = streams.getJSONObject(i).getJSONObject("channel");
+                    Stream chan = new Stream(channel);
+                    online.add(chan);
+                }
+
 
                 return result;
             } catch (Exception e) {
@@ -112,23 +131,18 @@ public class DisplayMessageActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                list = new ArrayList<Stream>(follows.length());
-                for(int i=0;i < follows.length();i++) {
-                    JSONObject channel = follows.getJSONObject(i).getJSONObject("channel");
-                    Stream chan = new Stream(channel);
-                    textView.setText(channel.getString("followers"));
-                    list.add(chan);
-                }
-                //String res = downloadUrl("https://api.twitch.tv/kraken/streams?limit=100&channel=" + Stream.names);
+
+                //
                 //textView.setText(res);
-                MyAdapter adapter = new MyAdapter(DisplayMessageActivity.this,list);
+                MyAdapter adapter = new MyAdapter(DisplayMessageActivity.this,online);
                 listView.setAdapter(adapter);
                 AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         Stream clicked = (Stream)parent.getItemAtPosition(position);
                         Intent click = new Intent(getApplicationContext(),StreamInfo.class);
                         String name = clicked.getDisplayName();
-                        click.putExtra("Display Name",name);
+                        String names = clicked.names;
+                        click.putExtra("Display Name",names);
                         startActivity(click);
                     }
                 };
