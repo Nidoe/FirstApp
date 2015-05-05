@@ -142,7 +142,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                         Intent click = new Intent(getApplicationContext(),StreamInfo.class);
                         String name = clicked.getDisplayName();
                         String names = clicked.names;
-                        click.putExtra("Display Name",names);
+                        click.putExtra("Display Name",name);
                         startActivity(click);
                     }
                 };

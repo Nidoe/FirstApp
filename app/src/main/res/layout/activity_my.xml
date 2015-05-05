@@ -2,17 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".MyActivity"
     android:orientation="horizontal">
+
     <EditText
         android:id="@+id/edit_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="@string/edit_message"/>
+        android:hint="@string/edit_message"
+        android:layout_gravity="center_vertical" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:text="@string/button_send"
-        android:onClick="sendMessage" />
+        android:onClick="sendMessage"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0" />
+
 </LinearLayout>
 
